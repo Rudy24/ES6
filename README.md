@@ -1,1 +1,1 @@
-ES6学习
+ES6学习-参考阮一峰http://es6.ruanyifeng.com
