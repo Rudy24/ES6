@@ -37,15 +37,3 @@ ES6将这4个方法，在语言内部全部调用RegExp的实例方法，从而�
   String.prototype.replace 调用 RegExp.prototype[Symbol.replace]
   String.prototype.search 调用 RegExp.prototype[Symbol.search]
   String.prototype.split 调用 RegExp.prototype[Symbol.split]
-
-  Math.trunc = Math.trunc || function(x) {
-    return x < 0 ? Math.ceil(x) : Math.floor(x);
-  }
-
-Math.sign = Math.sign || function(x) {
-  x = +x;
-  if (x === 0 || isNaN(X)) {
-    return x;
-  }
-  return x > 0 ? 1 : -1;
-}
