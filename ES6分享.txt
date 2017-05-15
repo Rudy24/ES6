@@ -138,7 +138,7 @@ class Animal {
         this.type = 'animal';
     }
     says(say){
-        console.log(this.type + ' says ' + say)
+        console.log(this.type + ' says ' + say);
     }
 }
 
@@ -148,7 +148,7 @@ animal.says('hello') //animal says hello
 class Cat extends Animal {
     constructor(){
         super()
-        this.type = 'cat'
+        this.type = 'cat';
     }
 }
 
@@ -188,36 +188,36 @@ function(x, y) {
 长期以来，JavaScript语言的this对象一直是一个令人头痛的问题，在对象方法中使用this，必须非常小心。例如：
 class Animal {
     constructor(){
-        this.type = 'animal'
+        this.type = 'animal';
     }
     says(say){
         setTimeout(function(){
             console.log(this.type + ' says ' + say)
-        }, 1000)
+        }, 1000);
     }
 }
 
  var animal = new Animal()
  animal.says('hi')  //undefined says hi
 
- 运行上面的代码会报错，这是因为setTimeout中的this指向的是全局对象。所以为了让它能够正确的运行，传统的解决方法有两种：
+运行上面的代码，这是因为setTimeout中的this指向的是全局对象。所以为了让它能够正确的运行，传统的解决方法有两种：
 
 第一种是将this传给self,再用self来指代this
 
  says(say){
      var self = this;
      setTimeout(function(){
-         console.log(self.type + ' says ' + say)
-     }, 1000)
+         console.log(self.type + ' says ' + say);
+     }, 1000);
 
      2.第二种方法是用bind(this),即
 
  says(say){
      setTimeout(function(){
-         console.log(self.type + ' says ' + say)
-     }.bind(this), 1000)
+         console.log(self.type + ' says ' + say);
+     }.bind(this), 1000);
 
-     但现在我们有了箭头函数，就不需要这么麻烦了：
+但现在我们有了箭头函数，就不需要这么麻烦了：
 
 class Animal {
     constructor(){
@@ -229,6 +229,7 @@ class Animal {
         }, 1000)
     }
 }
+
  var animal = new Animal()
  animal.says('hi')  //animal says hi
 
@@ -238,7 +239,7 @@ class Animal {
 
 template string
 
-这个东西也是非常有用，当我们要插入大段的html内容到文档中时，传统的写法非常麻烦，所以之前我们通常会引用一些模板工具库，比如mustache等等。
+这个东西也是非常有用，当我们要插入大段的html内容到文档中时，传统的写法非常麻烦
 
 大家可以先看下面一段代码：
 
@@ -249,6 +250,13 @@ $("#result").append(
   "</em> are on sale!"
 );
 
+var first = 'rudy',
+    last = 'song';
+
+var name = 'Your name is ' + first + ' ' + last + '.';
+var url = 'http://localhost:3000/api/messages/' + id;
+
+
 我们要用一堆的'+'号来连接文本与变量，而使用ES6的新特性模板字符串``后，我们可以直接这么来写：
 
 $("#result").append(`
@@ -258,48 +266,111 @@ $("#result").append(`
 `);
 
 用反引号（`）来标识起始，用${}来引用变量，而且所有的空格和缩进都会被保留在输出之中，是不是非常爽？！
+ES6的多行字符串是一个非常实用的功能。在ES5中，我们不得不使用以下方法来表示多行字符串：
 
-React Router从第1.0.3版开始也使用ES6语法了，比如这个例子：
-<Link to={`/taco/${taco.name}`}>{taco.name}</Link>
+var roadPoem = 'Then took the other, as just as fair,nt'
+    + 'And having perhaps the better claimnt'
+    + 'Because it was grassy and wanted wear,nt'
+    + 'Though as for that the passing therent'
+    + 'Had worn them really about the same,nt';
+var fourAgreements = 'You have the right to be you.n'
+    +'You can only be you when you do your best.';
 
+然而在ES6中，仅仅用反引号就可以解决了：
+
+var roadPoem = `Then took the other, as just as fair,
+    And having perhaps the better claim
+    Because it was grassy and wanted wear,
+    Though as for that the passing there
+    Had worn them really about the same,`;
+var fourAgreements = `You have the right to be you.
+    You can only be you when you do your best.`;
 destructuring
 
-ES6允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。
 
-let cat = 'ken'
-let dog = 'lili'
-let zoo = {cat: cat, dog: dog}
-console.log(zoo)  //Object {cat: "ken", dog: "lili"}
+ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。
+以前，为变量赋值，只能直接指定值。
 
-用ES6完全可以像下面这么写：
+let a = 1,b = 2,c = 3;
 
-let cat = 'ken'
-let dog = 'lili'
-let zoo = {cat, dog}
-console.log(zoo)  //Object {cat: "ken", dog: "lili"}
+ES6允许写成下面这样。
 
-反过来可以这么写：
+let [a, b, c] = [1, 2, 3];
 
-let dog = {type: 'animal', many: 2}
-let { type, many} = dog
-console.log(type, many)   //animal 2
+上面代码表示，可以从数组中提取值，按照对应位置，对变量赋值。
+
+本质上，这种写法属于“模式匹配”，只要等号两边的模式相同，左边的变量就会被赋予对应的值。下面是一些使用嵌套数组进行解构的例子。
+
+let [foo, [[bar], baz]] = [1, [[2], 3]];
+foo // 1
+bar // 2
+baz // 3
+
+let [ , , third] = ["foo", "bar", "baz"];
+third // "baz"
+
+let [x, , y] = [1, 2, 3];
+x // 1
+y // 3
+
+let [head, ...tail] = [1, 2, 3, 4];
+head // 1
+tail // [2, 3, 4]
+
+let [x, y, ...z] = ['a'];
+x // "a"
+y // undefined
+z // []
+
+如果解构不成功，变量的值就等于undefined。
+
+以上两种情况都属于解构不成功，foo的值都会等于undefined。
+
+另一种情况是不完全解构，即等号左边的模式，只匹配一部分的等号右边的数组。这种情况下，解构依然可以成功。
+
+let [x, y] = [1, 2, 3];
+x // 1
+y // 2
+
+let [a, [b], d] = [1, [2, 3], 4];
+a // 1
+b // 2
+d // 4
+
+上面两个例子，都属于不完全解构，但是可以成功。
+
+
 
 default, rest
 
-default很简单，意思就是默认值。大家可以看下面的例子，调用animal()方法时忘了传参数，传统的做法就是加上这一句type = type || 'cat'来指定默认值。
+default很简单，意思就是默认值。大家可以看下面的例子，调用log方法时忘了传参数，传统的做法就是加上这一句y = y || 'world';来指定默认值。
 
-function animal(type){
-    type = type || 'cat'  
-    console.log(type)
+function log(x,y) {
+    y = y || 'world';
+    console.log(y);
 }
-animal()
 
-如果用ES6我们而已直接这么写：
+log('Hello') // Hello World
+log('Hello', 'China') // Hello China
+log('Hello', '') // Hello World
 
-function animal(type = 'cat'){
-    console.log(type);
+一般情况下这样是可以的，但是如果参数对应的布尔值是false，则该赋值不起作用，那type就会选取'cat' 这于我们想要的参数不符
+为了避免这类问题我们可以先判断下参数type是否被复制，如果没有，再等于默认值
+
+if (typeof type === 'undefined') {
+    y = 'world';
 }
-animal()
+
+ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
+
+function log(x, y = 'World') {
+  console.log(x, y);
+}
+
+log('Hello') // Hello World
+log('Hello', 'China') // Hello China
+log('Hello', '') // Hello
+
 
 最后一个rest语法也很简单，直接看例子：
 
