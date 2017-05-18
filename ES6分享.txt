@@ -156,7 +156,7 @@ let cat = new Cat()
 cat.says('hello') //cat says hello
 
 上面代码首先用class定义了一个“类”，可以看到里面有一个constructor方法，这就是构造方法，而this关键字则代表实例对象。
-简单地说，constructor内定义的方法和属性是实例对象自己的，而constructor外定义的方法和属性则是所有实力对象可以共享的。
+简单地说，constructor内定义的方法和属性是实例对象自己的，而constructor外定义的方法和属性则是所有实例对象可以共享的。
 
 Class之间可以通过extends关键字实现继承，这比ES5的通过修改原型链实现继承，要清晰和方便很多。上面定义了一个Cat类，
 该类通过extends关键字，继承了Animal类的所有属性和方法。
@@ -186,19 +186,22 @@ function(x, y) {
 
 除了看上去更简洁以外，arrow function还有一项超级无敌的功能！
 长期以来，JavaScript语言的this对象一直是一个令人头痛的问题，在对象方法中使用this，必须非常小心。例如：
+
+
 class Animal {
     constructor(){
         this.type = 'animal';
     }
     says(say){
         setTimeout(function(){
-            console.log(this.type + ' says ' + say)
+            console.log(this.type + ' says ' + say);
         }, 1000);
     }
 }
 
  var animal = new Animal()
  animal.says('hi')  //undefined says hi
+
 
 运行上面的代码，这是因为setTimeout中的this指向的是全局对象。所以为了让它能够正确的运行，传统的解决方法有两种：
 
@@ -210,12 +213,17 @@ class Animal {
          console.log(self.type + ' says ' + say);
      }, 1000);
 
-     2.第二种方法是用bind(this),即
+     //animal says hi
+
+2.第二种方法是用bind(this),即
 
  says(say){
      setTimeout(function(){
-         console.log(self.type + ' says ' + say);
+         console.log(this.type + ' says ' + say);
      }.bind(this), 1000);
+
+     //animal says hi
+
 
 但现在我们有了箭头函数，就不需要这么麻烦了：
 
@@ -230,7 +238,7 @@ class Animal {
     }
 }
 
- var animal = new Animal()
+ var animal = new Animal();
  animal.says('hi')  //animal says hi
 
  当我们使用箭头函数时，函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
