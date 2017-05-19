@@ -362,10 +362,10 @@ log('Hello') // Hello World
 log('Hello', 'China') // Hello China
 log('Hello', '') // Hello World
 
-一般情况下这样是可以的，但是如果参数对应的布尔值是false，则该赋值不起作用，那type就会选取'cat' 这于我们想要的参数不符
-为了避免这类问题我们可以先判断下参数type是否被复制，如果没有，再等于默认值
+一般情况下这样是可以的，但是如果参数对应的布尔值是false，则该赋值不起作用，那y就会选取'world' 这于我们想要的参数不符
+为了避免这类问题我们可以先判断下参数y是否被复制，如果没有，再等于默认值
 
-if (typeof type === 'undefined') {
+if (typeof y === 'undefined') {
     y = 'world';
 }
 
